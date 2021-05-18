@@ -23,7 +23,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 app.use(helmet());
 app.use(cors({
-  origin: ['pof15.nomoredomains.icu', 'www.pof15.nomoredomains.icu']
+  origin: ['https://pof15.nomoredomains.icu', 'https://www.pof15.nomoredomains.icu']
 }));
 app.use(cookieParser());
 app.use(express.json());
