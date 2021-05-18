@@ -1,0 +1,18 @@
+.popup__input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 30px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  margin: 0 0 0px;
+}
+
+.popup__input:last-of-type {
+  margin-bottom: 0px;
+}
+
+.popup__input:focus {
+  outline: none;
+}

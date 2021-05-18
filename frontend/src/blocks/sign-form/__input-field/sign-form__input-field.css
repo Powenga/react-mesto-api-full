@@ -1,0 +1,7 @@
+.sign-form__input-field {
+  margin-bottom: 30px;
+}
+
+.sign-form__input-field:last-of-type {
+  margin-bottom: 215px;
+}

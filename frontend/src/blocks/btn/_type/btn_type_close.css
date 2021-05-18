@@ -1,0 +1,4 @@
+.btn_type_close {
+  background-size: contain;
+  background-image: url(../../../images/popup-close.svg);
+}

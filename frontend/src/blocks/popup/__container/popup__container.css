@@ -1,0 +1,18 @@
+.popup__container {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 10px;
+  max-width: 430px;
+  padding: 34px 36px 37px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .popup__container {
+    width: calc(33.04vw + 176.29px);
+    padding: calc(2vw + 18.57px) calc(3.13vw + 12px) calc(2.68vw + 16.42px);
+  }
+}

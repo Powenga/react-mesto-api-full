@@ -1,0 +1,9 @@
+.sign-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding-top: 20px;
+  max-width: 358px;
+  width: 100%;
+}

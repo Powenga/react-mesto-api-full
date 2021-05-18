@@ -1,0 +1,16 @@
+.error-notification_visible {
+  visibility: visible;
+  animation: scale .3s ease-in-out forwards;
+}
+
+@keyframes scale{
+  from {
+    transform: translate(-50%, -50%) scale(.1);
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

@@ -1,0 +1,32 @@
+.popup__submit-btn {
+  width: 100%;
+  min-height: 50px;
+  font-size: 18px;
+}
+
+.popup__submit-btn::after {
+  content: '\2026';
+  overflow: hidden;
+  display: none;
+  vertical-align: bottom;
+  animation: ellipsis steps(4, end) .9s infinite;
+  width: 0;
+  position: absolute;
+}
+
+.popup__submit-btn_animated::after {
+  display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+  .popup__submit-btn {
+    min-height: calc(0.89vw + 43.14px);
+  }
+}
+
+@keyframes ellipsis {
+  to {
+    width: 20px;
+  }
+
+}

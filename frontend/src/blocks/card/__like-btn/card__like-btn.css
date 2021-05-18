@@ -1,0 +1,8 @@
+.card__like-btn {
+  width: 21px;
+  height: 18px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+

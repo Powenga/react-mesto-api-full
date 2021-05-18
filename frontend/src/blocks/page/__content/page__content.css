@@ -1,0 +1,9 @@
+.page__content {
+  margin-top: 40px;
+}
+
+@media screen and (max-width:1024px) {
+  .page__content {
+    margin-top: calc(-0.28vw + 42.91px);
+  }
+}

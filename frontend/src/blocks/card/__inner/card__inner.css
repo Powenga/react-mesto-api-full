@@ -1,0 +1,11 @@
+.card__inner {
+  width: 100%;
+  border-radius: 10px 10px 0px 0px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}

@@ -1,0 +1,9 @@
+.content__places {
+  margin-top: 50px;
+}
+
+@media screen and (max-width: 1024px) {
+  .content__places {
+    margin-top: calc(1.99vw + 29.64px);
+  }
+}

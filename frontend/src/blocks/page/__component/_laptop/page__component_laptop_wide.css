@@ -1,0 +1,6 @@
+@media screen and (max-width: 1024px) {
+  .page__component_laptop_wide {
+    width: 100%;
+    max-width: 100%;
+  }
+}

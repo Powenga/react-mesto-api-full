@@ -1,0 +1,11 @@
+.btn_type_add {
+  border: 2px solid #fff;
+  border-radius: 2px;
+  background-image: url(../../../images/profole-add-btn.svg);
+}
+
+@media screen and (max-width: 768px) {
+  .btn_type_add {
+    background-size: 16px;
+  }
+}

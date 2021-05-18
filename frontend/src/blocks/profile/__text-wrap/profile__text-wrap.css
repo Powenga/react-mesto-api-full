@@ -1,0 +1,18 @@
+.profile__text-wrap {
+  display: inline-block;
+  position: relative;
+  max-width: 500px;
+
+}
+
+@media screen and (max-width: 1024px) {
+  .profile__text-wrap {
+    max-width: calc(74.22vw - 260px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .profile__text-wrap {
+    max-width: 80%;
+  }
+}

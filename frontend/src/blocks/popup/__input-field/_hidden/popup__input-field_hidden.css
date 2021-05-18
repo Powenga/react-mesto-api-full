@@ -1,0 +1,7 @@
+.popup__input-field_hidden {
+  visibility: hidden;
+}
+
+.popup__input-field_hidden:last-of-type {
+  margin-bottom: 0;
+}
