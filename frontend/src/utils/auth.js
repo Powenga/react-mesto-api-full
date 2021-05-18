@@ -40,5 +40,5 @@ class Auth {
 }
 
 export default new Auth({
-  baseUrl: 'https://auth.nomoreparties.co',
+  baseUrl: 'https://pob15.nomoredomains.icu/',
 });

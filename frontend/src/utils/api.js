@@ -71,9 +71,8 @@ class Api {
 }
 
 export default new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-20',
+  baseUrl: 'https://pob15.nomoredomains.icu/',
   headers: {
-    authorization: 'aad15f24-a077-4b33-9695-f949d459f3da',
     'Content-Type': 'application/json'
   }
 });
