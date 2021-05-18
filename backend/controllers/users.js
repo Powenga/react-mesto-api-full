@@ -1,3 +1,4 @@
+const { NODE_ENV, JWT_TOKEN } = process.env;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Unauthorized = require('../errors/unauthorized-err');
@@ -50,12 +51,17 @@ module.exports.createUser = (req, res, next) => {
   if (!email || !password) {
     throw new BadRequestError('Не переданы email или пароль!');
   }
-  bcrypt.hash(password, SALT_ROUNDS)
+  bcrypt
+    .hash(password, SALT_ROUNDS)
     .then((hash) => User.create({ email, password: hash, name, about, avatar }))
-    .then(({ _id, __v }) => res.status(201).send({ _id, email, name, about, avatar, __v }))
+    .then(({ _id, __v }) =>
+      res.status(201).send({ _id, email, name, about, avatar, __v })
+    )
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new BadRequestError('Перeданы неккоректные данные при регистрации!');
+        throw new BadRequestError(
+          'Перeданы неккоректные данные при регистрации!'
+        );
       }
       if (err.code === MONGO_DUPLICATE_ERROR_CODE) {
         throw new Conflict('Пользователь с таким email уже существует!');
@@ -70,10 +76,11 @@ module.exports.login = (req, res, next) => {
   if (!email || !password) {
     throw new BadRequestError('Не переданы email или пароль!');
   }
-  User.findOne({ email }).select('+password')
+  User.findOne({ email })
+    .select('+password')
     .orFail(new Unauthorized('Неправильные email или пароль!'))
-    .then((user) => bcrypt.compare(password, user.password)
-      .then((matched) => {
+    .then((user) =>
+      bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
           throw new Unauthorized('Неправильные email или пароль!');
         }
@@ -81,12 +88,19 @@ module.exports.login = (req, res, next) => {
       })
     )
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
-      res.cookie('jwt', token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        sameSite: true
-      })
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_TOKEN : 'some-secret-key',
+        {
+          expiresIn: '7d',
+        }
+      );
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: true,
+        })
         .end();
     })
     .catch(next);
@@ -94,8 +108,8 @@ module.exports.login = (req, res, next) => {
 
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
-  if(!name || !about) {
-    throw new BadRequestError('Не переданы имя или описание!')
+  if (!name || !about) {
+    throw new BadRequestError('Не переданы имя или описание!');
   }
   User.findByIdAndUpdate(
     req.user._id,
@@ -111,17 +125,19 @@ module.exports.updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        throw new BadRequestError('Переданы некорректные данные при обновлении пользователя!');
+        throw new BadRequestError(
+          'Переданы некорректные данные при обновлении пользователя!'
+        );
       }
       throw err;
-     })
+    })
     .catch(next);
 };
 
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  if(!avatar) {
-    throw new BadRequestError('Не передана ссылка на аватар пользователя!')
+  if (!avatar) {
+    throw new BadRequestError('Не передана ссылка на аватар пользователя!');
   }
   User.findByIdAndUpdate(
     req.user._id,
@@ -137,7 +153,9 @@ module.exports.updateAvatar = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        throw new BadRequestError('Переданы некорректные данные при обновлении аватара пользователя!');
+        throw new BadRequestError(
+          'Переданы некорректные данные при обновлении аватара пользователя!'
+        );
       }
       throw err;
     })

@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "npx eslint",
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "set NODE_ENV=development&& nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "bcrypt": "^5.0.1",
     "celebrate": "^14.0.0",
     "cookie-parser": "^1.4.5",
+    "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "express-winston": "^4.1.0",
     "helmet": "^4.5.0",
