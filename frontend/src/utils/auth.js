@@ -40,5 +40,5 @@ class Auth {
 }
 
 export default new Auth({
-  baseUrl: 'https://pob15.nomoredomains.icu/',
+  baseUrl: 'https://pob15.nomoredomains.icu',
 });
