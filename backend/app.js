@@ -4,6 +4,7 @@ const { celebrate, Joi, errors } = require('celebrate')
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
@@ -21,6 +22,9 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(helmet());
+app.use(cors({
+  origin: ['pof15.nomoredomains.icu', 'www.pof15.nomoredomains.icu']
+}));
 app.use(cookieParser());
 app.use(express.json());
 
