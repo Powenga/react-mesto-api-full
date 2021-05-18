@@ -4,6 +4,7 @@ class Auth {
   }
 
   _onError(res) {
+    console.log(res.ok);
     if(res.ok) {
       return res.json();
     }
@@ -25,13 +26,13 @@ class Auth {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({password, email})
     })
-      .then(this._onError)
+      .then(res => res.ok ? Promise.resolve() : Promise.reject())
   }
 
-  getContent(token) {
+  getContent() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
       credentials: 'include',
     })
@@ -40,5 +41,5 @@ class Auth {
 }
 
 export default new Auth({
-  baseUrl: 'https://pob15.nomoredomains.icu',
+  baseUrl: 'http://localhost:3000',
 });

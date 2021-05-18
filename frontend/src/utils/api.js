@@ -20,7 +20,8 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers
+      headers: this._headers,
+      credentials: 'include'
     })
       .then(this._onError)
   }
@@ -71,7 +72,7 @@ class Api {
 }
 
 export default new Api({
-  baseUrl: 'https://pob15.nomoredomains.icu/',
+  baseUrl: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json'
   }
