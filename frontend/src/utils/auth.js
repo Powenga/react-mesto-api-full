@@ -32,8 +32,8 @@ class Auth {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         'Content-Type': 'application/json',
-        "Authorization" : `Bearer ${token}`
-      }
+      },
+      credentials: 'include',
     })
       .then(this._onError)
   }
