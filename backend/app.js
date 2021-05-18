@@ -1,3 +1,4 @@
+
 const { celebrate, Joi, errors } = require('celebrate')
 const express = require('express');
 const mongoose = require('mongoose');
@@ -5,6 +6,7 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/not-found-err');
 
 const { PORT = 3000 } = process.env;
@@ -40,6 +42,8 @@ app.use(celebrate({
   }).unknown(true),
 }));
 
+app.use(requestLogger);
+
 app.post('/signup', createUser);
 app.post('/signin', login);
 
@@ -50,6 +54,8 @@ app.use('/cards', require('./routes/cards'));
 app.use((req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден!'))
 });
+
+app.use(errorLogger);
 
 app.use(errors());
 
