@@ -1,7 +1,7 @@
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import React, { useCallback } from "react";
+import React from "react";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -44,6 +44,7 @@ function App() {
     avatar: "",
     about: "",
     email: "",
+    _id: ""
   });
   const [userEmail, setUserEmail] = React.useState("");
   const history = useHistory();
@@ -65,7 +66,9 @@ function App() {
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userInfo, cards]) => {
+          console.log(userInfo);
           setCurrentUser(userInfo);
+          console.log(cards);
           setCards(cards);
           setUserEmail(userInfo.email);
         })
