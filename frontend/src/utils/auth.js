@@ -1,10 +1,11 @@
+import { BASE_URL } from '../utils/constants';
+
 class Auth {
   constructor({baseUrl}) {
     this._baseUrl = baseUrl;
   }
 
   _onError(res) {
-    console.log(res.ok);
     if(res.ok) {
       return res.json();
     }
@@ -24,22 +25,23 @@ class Auth {
     return fetch(`${this._baseUrl}/signin`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({password, email})
+      body: JSON.stringify({password, email}),
+      credentials: 'include',
     })
       .then(res => res.ok ? Promise.resolve() : Promise.reject())
   }
 
-  getContent() {
+  checkAutorization() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
       },
       credentials: 'include',
     })
-      .then(this._onError)
+      .then(res => res.ok ? Promise.resolve() : Promise.reject())
   }
 }
 
 export default new Auth({
-  baseUrl: 'https://pob15.nomoredomains.icu',
+  baseUrl: BASE_URL,
 });

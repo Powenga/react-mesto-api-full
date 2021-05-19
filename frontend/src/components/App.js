@@ -1,7 +1,7 @@
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import React from "react";
+import React, { useCallback } from "react";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -46,39 +46,36 @@ function App() {
     email: "",
   });
   const [userEmail, setUserEmail] = React.useState("");
-
   const history = useHistory();
 
-  // React.useEffect(() => {
-  //   tokenCheck();
-  // }, []);
+  React.useEffect(() => {
+    auth.checkAutorization()
+      .then(() => {
+        !loggedIn && setLoggedIn(true);
+        history.push('/')
+      })
+      .catch(() => {
+        setLoggedIn(false);
+        history.push('/sign-in')
+      });
+  }, [loggedIn, history])
 
   React.useEffect(() => {
     if (loggedIn) {
       Promise.all([
         api.getUserInfo(),
         api.getInitialCards(),
-        auth.getContent(localStorage.getItem("jwt")),
       ])
-        .then(([userInfo, cards, userContent]) => {
+        .then(([userInfo, cards]) => {
           setCurrentUser(userInfo);
           setCards(cards);
-          setUserEmail(userContent.data.email);
+          setUserEmail(userInfo.email);
         })
         .catch((err) => {
           console.log(err);
         });
     }
   }, [loggedIn]);
-
-  function tokenCheck() {
-    auth.getContent().then((res) => {
-      if (res) {
-        !loggedIn && setLoggedIn(true);
-        history.push("/");
-      }
-    });
-  }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -200,9 +197,9 @@ function App() {
     auth
       .signIn(email, pass)
       .then((res) => {
-          !loggedIn && setLoggedIn(true);
-          history.push("/");
-       })
+        !loggedIn && setLoggedIn(true);
+        history.push("/");
+      })
       .catch((err) => {
         handleShowInfo({
           message: "Что-то пошло не так! Попробуйте ещё раз.",

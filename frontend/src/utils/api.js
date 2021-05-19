@@ -1,3 +1,5 @@
+import { BASE_URL } from '../utils/constants';
+
 class Api {
   constructor({baseUrl, headers}) {
     this._baseUrl = baseUrl;
@@ -13,7 +15,8 @@ class Api {
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers
+      headers: this._headers,
+      credentials: 'include',
     })
       .then(this._onError)
   }
@@ -30,7 +33,8 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      credentials: 'include',
     })
       .then(this._onError)
   }
@@ -39,7 +43,8 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      credentials: 'include',
     })
       .then(this._onError)
   }
@@ -48,6 +53,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${data._id}`, {
       method: 'DELETE',
       headers: this._headers,
+      credentials: 'include',
     })
       .then(this._onError)
   }
@@ -57,6 +63,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: method,
       headers: this._headers,
+      credentials: 'include',
     })
       .then(this._onError)
   }
@@ -65,14 +72,15 @@ class Api {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      credentials: 'include',
     })
       .then(this._onError)
   }
 }
 
 export default new Api({
-  baseUrl: 'https://pob15.nomoredomains.icu',
+  baseUrl: BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   }

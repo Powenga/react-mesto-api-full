@@ -11,8 +11,9 @@ const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/not-found-err');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, ORIGIN='http://localhost:3000' } = process.env;
 
+console.log(ORIGIN);
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -21,12 +22,15 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
 });
 
-app.use(helmet());
+
 app.use(cors({
   credentials: true,
-  origin: ['https://pof15.nomoredomains.icu', 'https://www.pof15.nomoredomains.icu']
+  origin: ORIGIN,
 }));
 
+
+
+app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 
