@@ -91,6 +91,9 @@
 
 @import url(./blocks/transition/transition.css);
 
+@import url(./blocks/preloader/preloader.css);
+@import url(./blocks/preloader/__icon/preloader__icon.css);
+
 
 
 

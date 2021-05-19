@@ -16,7 +16,7 @@ import Register from "./Register";
 import UserWidget from "./UserWidget";
 import InfoTooltip from "./InfoTooltip";
 import auth from "../utils/auth";
-import { useTooltip } from "./hooks/useTooltip";
+import { useTooltip } from "../hooks/useTooltip";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -29,7 +29,7 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(false);
   const [deletedCard, setDeletedCard] = React.useState(false);
-
+  const [isDataLoading, setIsDataLoading] = React.useState(true)
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   const [cards, setCards] = React.useState([]);
@@ -53,17 +53,19 @@ function App() {
   } = useTooltip();
 
   React.useEffect(() => {
+    setIsDataLoading(true);
     auth
       .checkAutorization()
       .then(() => {
-        !loggedIn && setLoggedIn(true);
+        setLoggedIn(true);
         history.push("/");
       })
       .catch(() => {
         setLoggedIn(false);
         history.push("/sign-in");
-      });
-  }, [loggedIn, history]);
+      })
+      .finally(() => setIsDataLoading(false));
+  }, [history]);
 
   React.useEffect(() => {
     if (loggedIn) {
@@ -231,7 +233,7 @@ function App() {
       .logout()
       .then(() => {
         setLoggedIn(false);
-        history.push("/sign-in");
+
       })
       .catch((err) => {
         setTooltipMessage(err.message, true);
@@ -260,6 +262,7 @@ function App() {
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
               onCardClick={handleCardClick}
+              isDataLoading={isDataLoading}
             />
             <Route path="/sign-in">
               <Login onLogin={handleLogin} />
