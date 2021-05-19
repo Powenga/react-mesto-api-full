@@ -49,23 +49,21 @@ function App() {
   const history = useHistory();
 
   React.useEffect(() => {
-    auth.checkAutorization()
+    auth
+      .checkAutorization()
       .then(() => {
         !loggedIn && setLoggedIn(true);
-        history.push('/')
+        history.push("/");
       })
       .catch(() => {
         setLoggedIn(false);
-        history.push('/sign-in')
+        history.push("/sign-in");
       });
-  }, [loggedIn, history])
+  }, [loggedIn, history]);
 
   React.useEffect(() => {
     if (loggedIn) {
-      Promise.all([
-        api.getUserInfo(),
-        api.getInitialCards(),
-      ])
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userInfo, cards]) => {
           setCurrentUser(userInfo);
           setCards(cards);
@@ -231,9 +229,17 @@ function App() {
   }
 
   function handleLoguot() {
-    localStorage.removeItem("jwt");
-    setLoggedIn(false);
-    history.push("/sign-in");
+    auth.logout()
+    .then(() => {
+      setLoggedIn(false)
+      history.push("/sign-in");
+    })
+    .catch(err => {
+      handleShowInfo({
+        message: "Что-то пошло не так! Попробуйте ещё раз.",
+        isError: true,
+      });
+    })
   }
 
   return (

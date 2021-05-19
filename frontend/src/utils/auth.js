@@ -40,6 +40,16 @@ class Auth {
     })
       .then(res => res.ok ? Promise.resolve() : Promise.reject())
   }
+
+  logout() {
+    return fetch(`${this._baseUrl}/users/me/logout`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+      .then(res => res.ok ? Promise.resolve() : Promise.reject())
+  }
 }
 
 export default new Auth({

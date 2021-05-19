@@ -99,11 +99,25 @@ module.exports.login = (req, res, next) => {
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
-          sameSite: true
+          sameSite: true,
         })
         .end();
     })
     .catch(next);
+};
+
+module.exports.logOut = (req, res, next) => {
+  try {
+    res
+      .cookie('jwt', '', {
+        maxAge: 0,
+        httpOnly: true,
+        sameSite: true,
+      })
+      .end();
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports.updateUser = (req, res, next) => {
