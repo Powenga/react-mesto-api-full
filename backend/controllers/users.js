@@ -101,7 +101,7 @@ module.exports.login = (req, res, next) => {
           httpOnly: true,
           sameSite: true,
         })
-        .end();
+        .send({message: 'Вход выполнен!'});
     })
     .catch(next);
 };
@@ -114,7 +114,7 @@ module.exports.logOut = (req, res, next) => {
         httpOnly: true,
         sameSite: true,
       })
-      .end();
+      .send({message: 'Выход выполнен!'})
   } catch (err) {
     next(err);
   }

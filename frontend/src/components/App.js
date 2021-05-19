@@ -16,6 +16,7 @@ import Register from "./Register";
 import UserWidget from "./UserWidget";
 import InfoTooltip from "./InfoTooltip";
 import auth from "../utils/auth";
+import { useTooltip } from "./hooks/useTooltip";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -25,15 +26,15 @@ function App() {
     React.useState(false);
   const [isDeleteCardPopupOpen, setIsisDeleteCardPopupOpen] =
     React.useState(false);
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  // const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(false);
   const [deletedCard, setDeletedCard] = React.useState(false);
 
-  const [infoToolData, setInfoToolData] = React.useState({
-    message: "",
-    isError: true,
-  });
+  // const [infoToolData, setInfoToolData] = React.useState({
+  //   message: "",
+  //   isError: true,
+  // });
 
   const [loggedIn, setLoggedIn] = React.useState(false);
 
@@ -44,10 +45,18 @@ function App() {
     avatar: "",
     about: "",
     email: "",
-    _id: ""
+    _id: "",
   });
   const [userEmail, setUserEmail] = React.useState("");
   const history = useHistory();
+
+  const {
+    setTooltipMessage,
+    openTooltip,
+    closeTooltip,
+    isInfoTooltipOpen,
+    infoToolData,
+  } = useTooltip();
 
   React.useEffect(() => {
     auth
@@ -66,17 +75,16 @@ function App() {
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userInfo, cards]) => {
-          console.log(userInfo);
           setCurrentUser(userInfo);
-          console.log(cards);
           setCards(cards);
           setUserEmail(userInfo.email);
         })
         .catch((err) => {
-          console.log(err);
+          setTooltipMessage(err.message, true);
+          openTooltip();
         });
     }
-  }, [loggedIn]);
+  }, [loggedIn, openTooltip, setTooltipMessage]);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -104,7 +112,6 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsisDeleteCardPopupOpen(false);
-    setIsInfoTooltipOpen(false);
     setSelectedCard(false);
   }
 
@@ -117,7 +124,8 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(err);
+        setTooltipMessage(err.message, true);
+        openTooltip();
       })
       .finally(() => {
         setIsLoading(false);
@@ -134,7 +142,8 @@ function App() {
         form.reset();
       })
       .catch((err) => {
-        console.log(err);
+        setTooltipMessage(err.message, true);
+        openTooltip();
       })
       .finally(() => {
         setIsLoading(false);
@@ -151,7 +160,8 @@ function App() {
         resetForm();
       })
       .catch((err) => {
-        console.log(err);
+        setTooltipMessage(err.message, true);
+        openTooltip();
       })
       .finally(() => {
         setIsLoading(false);
@@ -167,7 +177,8 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(err);
+        setTooltipMessage(err.message, true);
+        openTooltip();
       })
       .finally(() => {
         setIsLoading(false);
@@ -189,11 +200,6 @@ function App() {
       });
   }
 
-  function handleShowInfo({ message, isError }) {
-    setInfoToolData({ ...infoToolData, message, isError });
-    setIsInfoTooltipOpen(true);
-  }
-
   function handleLogin(email, pass) {
     auth
       .signIn(email, pass)
@@ -202,10 +208,8 @@ function App() {
         history.push("/");
       })
       .catch((err) => {
-        handleShowInfo({
-          message: "Что-то пошло не так! Попробуйте ещё раз.",
-          isError: true,
-        });
+        setTooltipMessage(err.message, true);
+        openTooltip();
       });
   }
 
@@ -214,35 +218,30 @@ function App() {
       .signUp(email, pass)
       .then((res) => {
         if (res) {
+          setTooltipMessage("Вы успешно зарегистрировались!", false);
+          openTooltip();
           history.push("/sign-in");
-          handleShowInfo({
-            message: "Вы успешно зарегистрировались!",
-            isError: false,
-          });
         } else {
           return Promise.reject("Что-то пошло не так...");
         }
       })
       .catch((err) => {
-        handleShowInfo({
-          message: "Что-то пошло не так! Попробуйте ещё раз.",
-          isError: true,
-        });
+        setTooltipMessage(err.message, true);
+        openTooltip();
       });
   }
 
   function handleLoguot() {
-    auth.logout()
-    .then(() => {
-      setLoggedIn(false)
-      history.push("/sign-in");
-    })
-    .catch(err => {
-      handleShowInfo({
-        message: "Что-то пошло не так! Попробуйте ещё раз.",
-        isError: true,
+    auth
+      .logout()
+      .then(() => {
+        setLoggedIn(false);
+        history.push("/sign-in");
+      })
+      .catch((err) => {
+        setTooltipMessage(err.message, true);
+        openTooltip();
       });
-    })
   }
 
   return (
@@ -310,7 +309,7 @@ function App() {
           isOpen={isInfoTooltipOpen}
           isError={infoToolData.isError}
           title={infoToolData.message}
-          onClose={closeAllPopups}
+          onClose={closeTooltip}
         />
       </CurrentUserContext.Provider>
     </div>

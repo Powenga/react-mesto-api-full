@@ -7,10 +7,13 @@ class Api {
   }
 
   _onError(res) {
-    if(res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res.status);
+    return res.json()
+    .then(data => {
+      if(res.ok) {
+        return Promise.resolve(data)
+      }
+      return Promise.reject(data);
+    })
   }
 
   getUserInfo() {

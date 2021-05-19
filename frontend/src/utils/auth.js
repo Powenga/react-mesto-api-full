@@ -6,10 +6,13 @@ class Auth {
   }
 
   _onError(res) {
-    if(res.ok) {
-      return res.json();
-    }
-    return Promise.reject(res);
+    return res.json()
+    .then(data => {
+      if(res.ok) {
+        return Promise.resolve(data)
+      }
+      return Promise.reject(data);
+    })
   }
 
   signUp(email, password) {
@@ -28,7 +31,7 @@ class Auth {
       body: JSON.stringify({password, email}),
       credentials: 'include',
     })
-      .then(res => res.ok ? Promise.resolve() : Promise.reject())
+      .then(this._onError)
   }
 
   checkAutorization() {
@@ -38,7 +41,7 @@ class Auth {
       },
       credentials: 'include',
     })
-      .then(res => res.ok ? Promise.resolve() : Promise.reject())
+      .then(this._onError)
   }
 
   logout() {
@@ -48,7 +51,7 @@ class Auth {
       },
       credentials: 'include',
     })
-      .then(res => res.ok ? Promise.resolve() : Promise.reject())
+      .then(this._onError)
   }
 }
 

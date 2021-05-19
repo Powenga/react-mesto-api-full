@@ -13,7 +13,6 @@ const NotFoundError = require('./errors/not-found-err');
 
 const { PORT = 3000, ORIGIN='http://localhost:3000' } = process.env;
 
-console.log(ORIGIN);
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
