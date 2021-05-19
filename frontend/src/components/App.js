@@ -26,15 +26,9 @@ function App() {
     React.useState(false);
   const [isDeleteCardPopupOpen, setIsisDeleteCardPopupOpen] =
     React.useState(false);
-  // const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(false);
   const [deletedCard, setDeletedCard] = React.useState(false);
-
-  // const [infoToolData, setInfoToolData] = React.useState({
-  //   message: "",
-  //   isError: true,
-  // });
 
   const [loggedIn, setLoggedIn] = React.useState(false);
 
@@ -196,7 +190,8 @@ function App() {
         );
       })
       .catch((err) => {
-        console.log(err);
+        setTooltipMessage(err.message, true);
+        openTooltip();
       });
   }
 

@@ -1,4 +1,3 @@
-const { celebrate, Joi } = require('celebrate');
 const router = require('express').Router();
 const {
   getAllUsers,
@@ -8,16 +7,13 @@ const {
   updateAvatar,
   logOut
 } = require('../controllers/users');
+const { userValidator } = require('../middlewares/validator');
 
 router.get('/', getAllUsers);
 router.get('/me', getMyInfo);
 router.patch('/me', updateUser);
 router.patch('/me/avatar', updateAvatar);
 router.get('/me/logout', logOut)
-router.get('/:id', celebrate({
-  params: Joi.object().keys({
-    id: Joi.string().alphanum().length(24),
-  }),
-}), getUser);
+router.get('/:id', userValidator, getUser);
 
 module.exports = router;
