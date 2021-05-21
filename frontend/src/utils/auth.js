@@ -1,4 +1,4 @@
-import { BASE_URL } from '../utils/constants';
+import { REACT_APP_BASE_URL as BASE_URL } from '../utils/constants';
 
 class Auth {
   constructor({baseUrl}) {

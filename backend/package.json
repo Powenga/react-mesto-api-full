@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "npx eslint",
     "start": "node app.js",
-    "dev": "set NODE_ENV=development&& nodemon app.js"
+    "dev": "set NODE_ENV=development&& set PORT=3001&& set ORIGIN=http://localhost:3000&& nodemon app.js"
   },
   "repository": {
     "type": "git",

@@ -6,7 +6,6 @@ const Card = require('../models/card');
 module.exports.getAllCards = (req, res, next) => {
   Card.find({})
     .then((cards) => {
-      console.log(cards);
       res.send(cards)
     })
     .catch(next);
